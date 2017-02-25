@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         t_in.setOnClickListener(this);
         t_out.setOnClickListener(this);
         submit_btn.setOnClickListener(this);
+        startService(new Intent(this, NotificationService.class));
 
     }
 

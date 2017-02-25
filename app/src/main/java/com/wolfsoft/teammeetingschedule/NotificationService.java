@@ -1,0 +1,229 @@
+package com.wolfsoft.teammeetingschedule;
+
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
+import android.os.BatteryManager;
+import android.os.Build;
+import android.os.Handler;
+import android.os.IBinder;
+import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.wolfsoft.teammeetingschedule.utilities.BatteryChargeDAO;
+import com.wolfsoft.teammeetingschedule.utilities.DatabaseHelper;
+
+import java.io.InputStream;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.LogRecord;
+
+import static android.content.Intent.ACTION_POWER_CONNECTED;
+import static android.content.Intent.ACTION_POWER_DISCONNECTED;
+
+/**
+ * Created by vijay on 25-02-2017.
+ */
+
+public class NotificationService extends Service {
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
+
+
+    private static final int CHECK_BATTERY_INTERVAL = 10000;
+
+    //private GPSTracker gps;
+    private double batteryLevel;
+    private Handler handler;
+    public int onStartCommand(Intent intent,int flags, int startID) {
+            return START_STICKY;
+        }
+        //System.out.println("Status:"+status);
+
+
+    public void onCreate()
+    {
+        super.onCreate();
+           //nTimer=new Timer();
+
+        //nTimer.schedule(timerTask,2000,2*1000);
+        handler = new Handler();
+        //handler.postDelayed(checkBatteryStatusRunnable, CHECK_BATTERY_INTERVAL);
+        registerReceiver(batInfoReceiver,
+                new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+
+    }
+
+    private boolean isSameChargingState(String currentState){
+        return false;
+    }
+
+    private void addNewChargingData(Date date, int charge){
+        String currentState = "charging";
+        if(!isSameChargingState(currentState)){
+            DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+            BatteryChargeDAO dao = new BatteryChargeDAO(dbHelper.getWritableDatabase());
+            long rowID = dao.insert(date,charge);
+            saveChargingState(currentState+","+rowID);
+        }
+
+    }
+
+    private void saveChargingState(String s) {
+    }
+    private long getExistingRecordID(){
+        //InputStream databaseInputStream = getResources().openRawResource(R.raw.yourfile);
+        return 1L;
+    }
+
+    private void updateExistingChargingData(Date date, int charge){
+        String currentState = "discharging";
+        if(!isSameChargingState(currentState)){
+            long rowID = getExistingRecordID();
+            DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+            BatteryChargeDAO dao = new BatteryChargeDAO(dbHelper.getWritableDatabase());
+            dao.update(date,charge, rowID);
+            saveChargingState(currentState);
+        }
+    }
+
+
+    private BroadcastReceiver batInfoReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent batteryIntent) {
+
+
+            int status = batteryIntent.getIntExtra(BatteryManager.EXTRA_STATUS,-1);
+            int rawlevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+            int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+            Log.e("Battery level is ", rawlevel + "mm"+" scale "+scale+"mm");
+            if (rawlevel >= 0 && scale > 0) {
+                batteryLevel = (rawlevel * 100.0) / scale;
+            }
+            switch(status){
+                case BatteryManager.BATTERY_STATUS_FULL:
+                    System.out.println("Battery Full.");
+                   // updateExistingChargingData(new Date(System.currentTimeMillis()), (int)batteryLevel);
+                    break;
+                case BatteryManager.BATTERY_STATUS_CHARGING:
+                    System.out.println("Battery Charging.");
+                   // addNewChargingData(new Date(System.currentTimeMillis()), (int)batteryLevel);
+                    break;
+                case BatteryManager.BATTERY_STATUS_DISCHARGING:
+                    System.out.println("Battery Discharging.");
+                   // updateExistingChargingData(new Date(System.currentTimeMillis()), (int)batteryLevel);
+                    break;
+
+            }
+
+
+
+
+
+            Log.e("Battery level is", batteryLevel + "mm");
+        }
+    };
+    public static boolean isPlugged(Context context) {
+        boolean isPlugged= false;
+        Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        int plugged = intent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+        isPlugged = plugged == BatteryManager.BATTERY_PLUGGED_AC || plugged == BatteryManager.BATTERY_PLUGGED_USB;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN) {
+            isPlugged = isPlugged || plugged == BatteryManager.BATTERY_PLUGGED_WIRELESS;
+        }
+        return isPlugged;
+    }
+
+    /*private Runnable checkBatteryStatusRunnable = new Runnable() {
+        @Override
+        public void run() {
+            //DO WHATEVER YOU WANT WITH LATEST BATTERY LEVEL STORED IN batteryLevel HERE...
+
+            // schedule next battery check
+
+            handler.postDelayed(checkBatteryStatusRunnable, CHECK_BATTERY_INTERVAL);
+            Log.e("Battery status is", batteryLevel + "mm cached");
+        }
+    };
+    */
+
+
+    /*private Timer nTimer;
+    TimerTask timerTask=new TimerTask() {
+        @Override
+        public void run() {
+            Log.e("Log","Running");
+            batteryLevel();
+        }
+    };
+    */
+
+    public void onDestroy()
+    {
+        unregisterReceiver(batInfoReceiver);
+       // handler.removeCallbacks(checkBatteryStatusRunnable);
+    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    /*
+    public void notifiy()
+    {
+        IntentFilter intentFilter=new IntentFilter();
+        intentFilter.addAction("RSSPullService");
+
+        Intent myIntent=new Intent(Intent.ACTION_VIEW, Uri.parse(""));
+        PendingIntent pendingIntent=PendingIntent.getActivity(getBaseContext(),0,myIntent,Intent.FLAG_ACTIVITY_NEW_TASK);
+        Context context=getApplicationContext();
+
+        Notification.Builder builder;
+        builder=new Notification.Builder(context)
+                .setContentTitle("Background Service")
+                .setContentText("Notification for the sound service")
+                .setContentIntent(pendingIntent)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setAutoCancel(true)
+                .setSmallIcon(R.drawable.batterywise_logo);
+        Notification notification=builder.build();
+
+        NotificationManager notificationManager=(NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(1,notification);
+
+    }
+    */
+
+
+    private void batteryLevel() {
+        BroadcastReceiver batteryLevelReceiver = new BroadcastReceiver() {
+            public void onReceive(Context context, Intent intent) {
+                //context.unregisterReceiver(this);
+                int rawlevel = intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
+                int scale = intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
+                int level = -1;
+                if (rawlevel >= 0 && scale > 0) {
+                    level = (rawlevel * 100) / scale;
+                }
+                Log.e("Battery status is:", level + "mm");
+            }
+        };
+        IntentFilter batteryLevelFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
+        registerReceiver(batteryLevelReceiver, batteryLevelFilter);
+        return;
+    }
+}
+
