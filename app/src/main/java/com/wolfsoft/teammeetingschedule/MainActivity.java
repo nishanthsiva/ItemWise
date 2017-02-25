@@ -1,37 +1,84 @@
 package com.wolfsoft.teammeetingschedule;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
+
+import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button button;
-    EditText username, password;
+    Button t_in, t_out, submit_btn;
+    private int mHour, mMinute;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        username = (EditText) findViewById(R.id.username);
-        password = (EditText) findViewById(R.id.password);
-        button = (Button) findViewById(R.id.submit);
+        t_in = (Button) findViewById(R.id.v_in);
+        t_out= (Button) findViewById(R.id.v_out);
+        submit_btn = (Button) findViewById(R.id.submit);
 
-        button.setOnClickListener(this);
-
+        t_in.setOnClickListener(this);
+        t_out.setOnClickListener(this);
+        submit_btn.setOnClickListener(this);
 
     }
 
     @Override
     public void onClick(View v) {
-        Intent redirect = new Intent(this, Home.class);
-        startActivity(redirect);
+
+        if(v == t_in) {
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+                                t_in.setText(hourOfDay + ":" + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }
+
+        if(v == t_out) {
+            final Calendar c = Calendar.getInstance();
+            mHour = c.get(Calendar.HOUR_OF_DAY);
+            mMinute = c.get(Calendar.MINUTE);
+
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                    new TimePickerDialog.OnTimeSetListener() {
+
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay,
+                                              int minute) {
+                            t_out.setText(hourOfDay + ":" + minute);
+                        }
+                    }, mHour, mMinute, false);
+            timePickerDialog.show();
+        }
+
+
+        if(v == submit_btn){
+
+            Intent redirect = new Intent(this, Home.class);
+            startActivity(redirect);
+        }
+
     }
 }

@@ -46,34 +46,54 @@
     </FrameLayout>
 
     <Button
-        android:text="Login"
+        android:text="Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="105dp"
-        android:id="@+id/submit" />
+        android:id="@+id/submit"
+        android:elevation="3dp" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
+    <TextView
+        android:text="Time IN"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
         android:layout_above="@+id/submit"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="91dp"
-        android:id="@+id/username"
-        android:hint="Username or Email" />
+        android:layout_toStartOf="@+id/submit"
+        android:layout_marginBottom="101dp"
+        android:id="@+id/time_in"
+        android:layout_toLeftOf="@+id/submit" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:layout_marginBottom="27dp"
-        android:id="@+id/password"
-        android:hint="Password"
+    <TextView
+        android:text="Time OUT"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="39dp"
+        android:id="@+id/time_out"
         android:layout_above="@+id/submit"
-        android:layout_alignLeft="@+id/username"
-        android:layout_alignStart="@+id/username" />
+        android:layout_alignLeft="@+id/time_in"
+        android:layout_alignStart="@+id/time_in" />
+
+    <Button
+        android:text="Select"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:id="@+id/v_out"
+        android:layout_alignBaseline="@+id/time_out"
+        android:layout_alignBottom="@+id/time_out"
+        android:layout_alignLeft="@+id/v_in"
+        android:layout_alignStart="@+id/v_in" />
+
+    <Button
+        android:text="Select"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:id="@+id/v_in"
+        android:layout_alignBottom="@+id/time_in"
+        android:layout_toRightOf="@+id/submit"
+        android:layout_toEndOf="@+id/submit" />
+
 </RelativeLayout>
