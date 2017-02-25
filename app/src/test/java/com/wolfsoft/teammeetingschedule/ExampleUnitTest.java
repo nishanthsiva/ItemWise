@@ -1,4 +1,4 @@
-package com.hackisu.lincolnboyz.itemwise;
+package com.wolfsoft.teammeetingschedule;
 
 import org.junit.Test;
 
