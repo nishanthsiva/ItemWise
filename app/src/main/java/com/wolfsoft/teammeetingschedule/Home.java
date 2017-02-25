@@ -48,9 +48,9 @@ public class Home extends AppCompatActivity {
 
     private class MyPagerAdapter extends FragmentPagerAdapter {
 
-        public final int PAGE_COUNT = 4;
+        public final int PAGE_COUNT = 2;
 
-        private final String[] mTabsTitle = {"Home", "Add User", "Notification","More"};
+        private final String[] mTabsTitle = {"Home", "Add User"};
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -75,10 +75,10 @@ public class Home extends AppCompatActivity {
 
                 case 1:
                     return SecondFragment.newInstance(2);
-                case 2:
-                    return SecondFragment.newInstance(3);
-                case 3:
-                    return SecondFragment.newInstance(4);
+                //case 2:
+                  //  return SecondFragment.newInstance(3);
+                //case 3:
+                  //  return SecondFragment.newInstance(4);
             }
             return null;
         }
