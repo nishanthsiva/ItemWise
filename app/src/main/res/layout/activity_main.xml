@@ -44,4 +44,36 @@
         </LinearLayout>
 
     </FrameLayout>
+
+    <Button
+        android:text="Login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="105dp"
+        android:id="@+id/submit" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_above="@+id/submit"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="91dp"
+        android:id="@+id/username"
+        android:hint="Username or Email" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_marginBottom="27dp"
+        android:id="@+id/password"
+        android:hint="Password"
+        android:layout_above="@+id/submit"
+        android:layout_alignLeft="@+id/username"
+        android:layout_alignStart="@+id/username" />
 </RelativeLayout>
