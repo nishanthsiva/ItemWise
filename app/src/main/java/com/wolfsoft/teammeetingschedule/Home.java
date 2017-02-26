@@ -5,16 +5,20 @@ import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -52,15 +56,52 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
     private int[] mTabsIcons = {
             R.drawable.home,
-            R.drawable.profile,
             R.drawable.bell,
-            R.drawable.adjust};
+            };
 
-    @Override
+    public void notification(){
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.bell)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!");
+
+        Intent resultIntent = new Intent(this, Home.class);
+        resultIntent.putExtra("position", 2);
+        // Because clicking the notification opens a new ("special") activity, there's
+        // no need to create an artificial back stack.
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
+
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        int mNotificationId = 001;
+        // Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+
+    }
+
+
+
+
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
+            notification();
+            displayView(getIntent().getIntExtra("position", 2));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
+        /*
         NotificationManager notif = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Notification notify = new Notification.Builder
                 (getApplicationContext()).setContentTitle("My Notification").setContentText("Welcome to our App").
@@ -68,6 +109,11 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
         notify.flags |= Notification.FLAG_AUTO_CANCEL;
         notif.notify(0, notify);
+
+        */
+
+
+
 
         // Initialize credentials and service object.
         mCredential = GoogleAccountCredential.usingOAuth2(
@@ -92,11 +138,21 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
             mTabLayout.getTabAt(0).getCustomView().setSelected(true);
         }
-
+        getResultsFromApi();
         //addCalendarItem("hello world..");
        // LinearLayout layout = (LinearLayout) view.findViewById(R.id.item_list);
         //System.out.println(getSupportFragmentManager().getFragments().get(0).getView().findViewById(R.id.item_list));
-        getResultsFromApi();
+
+    }
+
+    public void displayView(int position) {
+
+        Fragment fragment = null;
+
+        switch (position) {
+            case 2:
+
+        }
     }
 
 
