@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button t_in, t_out, submit_btn;
     private int mHour, mMinute;
+    EditText off, hom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         t_in = (Button) findViewById(R.id.v_in);
         t_out= (Button) findViewById(R.id.v_out);
         submit_btn = (Button) findViewById(R.id.submit);
+
+        off = (EditText) findViewById(R.id.off_address);
+        hom = (EditText) findViewById(R.id.hom_address);
 
         t_in.setOnClickListener(this);
         t_out.setOnClickListener(this);
