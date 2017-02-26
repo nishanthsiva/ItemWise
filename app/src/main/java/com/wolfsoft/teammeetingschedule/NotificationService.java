@@ -1,5 +1,7 @@
 package com.wolfsoft.teammeetingschedule;
 
+import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -200,6 +202,26 @@ public class NotificationService extends Service {
             try {
                 fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
                 fos.write((batteryLevel+"").getBytes());
+                fos.close();
+                System.out.println("writing "+batteryLevel+" to file.");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            FILENAME = "processes.txt";
+            fos = null;
+            try {
+                fos = openFileOutput(FILENAME, Context.MODE_APPEND);
+                ActivityManager am = (ActivityManager)
+                        getSystemService(Activity.ACTIVITY_SERVICE);
+
+                for(ActivityManager.RunningTaskInfo taskInfo : am.getRunningTasks(2)){
+                    String packageName = taskInfo.topActivity.getPackageName();
+                    packageName = packageName.substring(packageName.lastIndexOf(".")+1,packageName.length());
+                    fos.write((packageName+"\n").getBytes());
+                }
                 fos.close();
                 System.out.println("writing "+batteryLevel+" to file.");
             } catch (FileNotFoundException e) {

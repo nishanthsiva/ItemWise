@@ -40,6 +40,7 @@ import org.w3c.dom.Text;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -144,8 +145,26 @@ public class FirstFragment extends Fragment{
         eventStatus.setText(calendarEvent.getEventStatus());
         TextView eventLocation = (TextView) view.findViewById(R.id.event_location);
         eventLocation.setText(calendarEvent.getEventLocation());
+        TextView eventStartDate = (TextView) view.findViewById(R.id.event_date);
+        eventStartDate.setText(calendarEvent.getStartDate().getHours()+":"+calendarEvent.getStartDate().getMinutes()+" Hrs");
+        System.out.println(calendarEvent.getStartDate().toLocaleString());
+        writeCalendarEvent(calendarEvent);
         layout.addView(view);
+    }
 
+    private void writeCalendarEvent(CalendarEvent calendarEvent) {
+        String FILENAME = "calendar.txt";
+
+        FileOutputStream fos = null;
+        try {
+            fos = rootView.getContext().openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            fos.write((calendarEvent.getEventName()+","+calendarEvent.getStartDate().getTime()+"\n").getBytes());
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -226,7 +245,6 @@ public class FirstFragment extends Fragment{
                 DateTime end = event.getEnd().getDateTime();
                 Date startDate = new Date(start.getValue());
                 Date endDate = new Date(end.getValue());
-
                 CalendarEvent calEvent = new CalendarEvent(event.getSummary(), startDate, endDate, event.getLocation(), event.getStatus());
                 //Toast.makeText(getApplicationContext(), event.getSummary(),Toast.LENGTH_SHORT);
                 //addCalendarItem(rootInflater, rootView, event.getSummary());
