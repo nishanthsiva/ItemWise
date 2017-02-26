@@ -23,7 +23,17 @@ import android.widget.Toast;
 import com.wolfsoft.teammeetingschedule.utilities.BatteryChargeDAO;
 import com.wolfsoft.teammeetingschedule.utilities.DatabaseHelper;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.nio.Buffer;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -70,12 +80,37 @@ public class NotificationService extends Service {
     }
 
     private boolean isSameChargingState(String currentState){
+        try {
+            FileInputStream fis = openFileInput("chargingstatus.txt");
+            String data = "";
+            while(fis.available() > 0){
+                byte input[] = new byte[1];
+                 input[0] = (byte) fis.read();
+                data += new String(input);
+            }
+            System.out.println("File data "+data);
+            System.out.println("input data "+currentState);
+            if(data.startsWith(currentState))
+                return true;
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+
         return false;
+
+
     }
 
     private void addNewChargingData(Date date, int charge){
         String currentState = "charging";
         if(!isSameChargingState(currentState)){
+            System.out.println("Battery is charging..");
             DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
             BatteryChargeDAO dao = new BatteryChargeDAO(dbHelper.getWritableDatabase());
             long rowID = dao.insert(date,charge);
@@ -85,15 +120,44 @@ public class NotificationService extends Service {
     }
 
     private void saveChargingState(String s) {
+        String FILENAME = "chargingstatus.txt";
+
+        FileOutputStream fos = null;
+        try {
+            fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+            fos.write(s.getBytes());
+            fos.close();
+            System.out.println("writing "+s+" to file.");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     private long getExistingRecordID(){
-        //InputStream databaseInputStream = getResources().openRawResource(R.raw.yourfile);
-        return 1L;
+        try {
+            FileInputStream fis = openFileInput("chargingstatus.txt");
+            String data = "";
+            while(fis.available() > 0){
+                byte input[] = new byte[1];
+                input[0] = (byte) fis.read();
+                data += new String(input);
+            }
+            return Long.parseLong(data.split(",")[1]);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return -1L;
     }
 
     private void updateExistingChargingData(Date date, int charge){
         String currentState = "discharging";
         if(!isSameChargingState(currentState)){
+            System.out.println("Battery is discharging..");
             long rowID = getExistingRecordID();
             DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
             BatteryChargeDAO dao = new BatteryChargeDAO(dbHelper.getWritableDatabase());
@@ -111,22 +175,21 @@ public class NotificationService extends Service {
             int status = batteryIntent.getIntExtra(BatteryManager.EXTRA_STATUS,-1);
             int rawlevel = batteryIntent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
             int scale = batteryIntent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-            Log.e("Battery level is ", rawlevel + "mm"+" scale "+scale+"mm");
             if (rawlevel >= 0 && scale > 0) {
                 batteryLevel = (rawlevel * 100.0) / scale;
             }
             switch(status){
                 case BatteryManager.BATTERY_STATUS_FULL:
-                    System.out.println("Battery Full.");
-                   // updateExistingChargingData(new Date(System.currentTimeMillis()), (int)batteryLevel);
+                    //System.out.println("Battery Full.");
+                    updateExistingChargingData(new Date(System.currentTimeMillis()), (int)batteryLevel);
                     break;
                 case BatteryManager.BATTERY_STATUS_CHARGING:
-                    System.out.println("Battery Charging.");
-                   // addNewChargingData(new Date(System.currentTimeMillis()), (int)batteryLevel);
+                    //System.out.println("Battery Charging.");
+                    addNewChargingData(new Date(System.currentTimeMillis()), (int)batteryLevel);
                     break;
                 case BatteryManager.BATTERY_STATUS_DISCHARGING:
-                    System.out.println("Battery Discharging.");
-                   // updateExistingChargingData(new Date(System.currentTimeMillis()), (int)batteryLevel);
+                    //System.out.println("Battery Discharging.");
+                    updateExistingChargingData(new Date(System.currentTimeMillis()), (int)batteryLevel);
                     break;
 
             }
