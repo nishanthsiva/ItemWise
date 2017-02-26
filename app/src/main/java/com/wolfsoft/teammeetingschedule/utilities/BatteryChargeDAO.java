@@ -2,8 +2,8 @@ package com.wolfsoft.teammeetingschedule.utilities;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.icu.text.SimpleDateFormat;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**

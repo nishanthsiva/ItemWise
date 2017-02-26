@@ -56,9 +56,8 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
     private int[] mTabsIcons = {
             R.drawable.home,
-            R.drawable.profile,
             R.drawable.bell,
-            R.drawable.adjust};
+            };
 
     public void notification(){
 
@@ -139,11 +138,11 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
             mTabLayout.getTabAt(0).getCustomView().setSelected(true);
         }
-
+        getResultsFromApi();
         //addCalendarItem("hello world..");
        // LinearLayout layout = (LinearLayout) view.findViewById(R.id.item_list);
         //System.out.println(getSupportFragmentManager().getFragments().get(0).getView().findViewById(R.id.item_list));
-        getResultsFromApi();
+
     }
 
     public void displayView(int position) {
