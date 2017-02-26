@@ -68,34 +68,6 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.drawable.bell)
-                            .setContentTitle("My notification")
-                            .setContentText("Hello World!");
-
-            Intent resultIntent = new Intent(this, Home.class);
-
-            PendingIntent resultPendingIntent =
-                    PendingIntent.getActivity(
-                            this,
-                            0,
-                            resultIntent,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
-
-            mBuilder.setAutoCancel(true);
-            mBuilder.setContentIntent(resultPendingIntent);
-
-
-            // Sets an ID for the notification
-            int mNotificationId = 001;
-// Gets an instance of the NotificationManager service
-            NotificationManager mNotifyMgr =
-                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-// Builds the notification and issues it.
-            mNotifyMgr.notify(mNotificationId, mBuilder.build());
-
 
 
 
