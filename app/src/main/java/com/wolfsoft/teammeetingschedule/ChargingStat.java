@@ -22,13 +22,13 @@ public class ChargingStat {
         BatteryChargeDAO BatteryStat= new BatteryChargeDAO(db);
         String StatData[] =BatteryStat.getData();
 
-        while(i<StatData.length){
+        while(i<(StatData.length-2)){
             start_t=Long.parseLong(StatData[i]);
             i++;
             start_c=Integer.parseInt(StatData[i]);
             i++;
             if((i+2)<StatData.length ){
-                if(i>1){
+                if(i>2){
                     discharge_r=discharge_r+ChargeChange(stop_t,stop_c,start_t,start_c);
                     dc++;
                 }
@@ -54,7 +54,7 @@ public class ChargingStat {
     }
     public float ChargeChange(long start_t,int start_c,long stop_t, int stop_c){
         float rate;
-        rate=(start_c-stop_c)/(start_t-stop_t);
+        rate=(float)(start_c-stop_c)/(float)(start_t-stop_t);
     return rate;
     }
 }
