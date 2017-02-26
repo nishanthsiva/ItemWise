@@ -7,10 +7,52 @@
     android:layout_height="match_parent"
     tools:context="com.wolfsoft.teammeetingschedule.MainActivity">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/frameLayout"
+        android:scrollbars="none"
+        android:id="@+id/calendar_items">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical">
+
+            <com.wolfsoft.teammeetingschedule.TextView_Lato
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="Today's Appointments"
+                android:textColor="@color/colorGray"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical"
+                android:id="@+id/item_list">
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
     <FrameLayout
         android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="270dp">
+        android:layout_height="270dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <ImageView
             android:layout_width="match_parent"
@@ -23,7 +65,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="386dp"
+                android:layout_width="370dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="2">
@@ -31,35 +73,35 @@
                 <ImageView
                     android:id="@+id/back"
                     android:layout_width="0dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="16dp"
+                    android:layout_margin="25dp"
                     android:layout_weight="0.2"
-                    android:src="@drawable/menu" />
+                    android:src="@drawable/menu"
+                    android:layout_height="24dp" />
 
 
                 <com.wolfsoft.teammeetingschedule.TextView_Lato
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
-                    android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="40dp"
                     android:layout_weight="1.6"
                     android:gravity="center_horizontal"
                     android:text="Expected Battery Life"
                     android:textColor="#fff"
-                    android:textSize="16dp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
 
-                    />
+                    android:layout_marginEnd="6dp" />
 
                 <ImageView
                     android:layout_width="0dp"
-                    android:layout_height="24dp"
-                    android:layout_margin="16dp"
-                    android:layout_weight="0.2"
+                    android:layout_margin="25dp"
+                    android:layout_weight="0.24"
                     android:gravity="right"
-                    android:src="@drawable/dots" />
+                    android:src="@drawable/dots"
+                    android:layout_height="24dp" />
 
 
             </LinearLayout>
@@ -181,74 +223,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="185dp"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <com.wolfsoft.teammeetingschedule.TextView_Lato
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:background="@drawable/roun_rect_white"
-                android:text="Gotcha!"
-                android:textColor="@color/colorGray"
-                android:textSize="14dp"
-                android:textStyle="bold" />
-
-            <com.wolfsoft.teammeetingschedule.TextView_Lato
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="8dp"
-                android:background="@drawable/roun_rect_gray"
-                android:text="Alert Team"
-                android:textColor="@color/colorBackroundWhite"
-                android:textSize="14dp"
-                android:textStyle="bold" />
-        </LinearLayout>
     </FrameLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/frameLayout"
-        android:scrollbars="none"
-        android:id="@+id/calendar_items">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:orientation="vertical">
-
-            <com.wolfsoft.teammeetingschedule.TextView_Lato
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="5dp"
-                android:text="Today's Appointments"
-                android:textColor="@color/colorGray"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:orientation="vertical"
-                android:id="@+id/item_list">
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-    </ScrollView>
 
 </RelativeLayout>
