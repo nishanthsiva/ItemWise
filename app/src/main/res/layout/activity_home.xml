@@ -30,7 +30,8 @@
 
             android:scrollbarThumbVertical="@drawable/bell"
             android:scrollbarTrackHorizontal="@drawable/home"
-            android:scrollbarTrackVertical="@drawable/bell" />
+            android:scrollbarTrackVertical="@drawable/bell"
+            android:foregroundGravity="center_horizontal" />
 
 
     </LinearLayout>
