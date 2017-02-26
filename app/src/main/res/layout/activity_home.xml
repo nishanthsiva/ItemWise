@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,25 +24,15 @@
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:background="?attr/colorPrimary"
+            android:background="@color/colorPrimary"
             app:tabIndicatorColor="@android:color/white"
             app:tabIndicatorHeight="2dp"
 
-            />
+            android:scrollbarThumbVertical="@drawable/bell"
+            android:scrollbarTrackHorizontal="@drawable/home"
+            android:scrollbarTrackVertical="@drawable/bell" />
 
 
     </LinearLayout>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/add"
-
-        app:backgroundTint="@color/colorPrimary"
-        app:fabSize="normal"
-        app:layout_anchor="@id/view_pager"
-        app:layout_anchorGravity="bottom|right|end" />
 </android.support.design.widget.CoordinatorLayout>

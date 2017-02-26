@@ -52,9 +52,8 @@ public class Home extends AppCompatActivity implements EasyPermissions.Permissio
 
     private int[] mTabsIcons = {
             R.drawable.home,
-            R.drawable.profile,
             R.drawable.bell,
-            R.drawable.adjust};
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
