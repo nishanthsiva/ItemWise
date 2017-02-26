@@ -53,20 +53,25 @@ public class BatteryChargeDAO {
 
         String[] projection = {"START_TIME","START_CHARGE","STOP_TIME","STOP_CHARGE"};
 
-        Cursor c = db.query("START_TIME",projection,null,null,null,null,null,null);
+        Cursor c = db.query("BATTERY_CHARGE",projection,null,null,null,null,null,null);
 
         boolean stat = c.moveToFirst();
 
         List<String> data = new ArrayList<>();
 
         if (c.moveToFirst()) {
-            try {
+            try{
             do {
 
                     String start_t = dateFormat.parse(c.getString(0)).getTime()+"";
                     String start_c  = c.getString(1);
-                    String stop_t = dateFormat.parse(c.getString(2)).getTime()+"";
-                    String stop_c = c.getString(3);
+                    String stop_t = "0";
+                    if(c.getString(2) != null)
+                         stop_t = dateFormat.parse(c.getString(2)).getTime()+"";
+                    String stop_c = "0";
+                    if(c.getString(3) != null)
+                        stop_c = c.getString(3);
+                    System.out.println(start_t+" "+start_c+" "+stop_t+" "+stop_c);
                     data.add(start_t);
                     data.add(start_c);
                     data.add(stop_t);

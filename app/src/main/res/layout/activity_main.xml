@@ -41,45 +41,61 @@
 
     </FrameLayout>
 
+    <TextView
+        android:text="When do you leave home?"
+        android:layout_width="100dp"
+        android:layout_marginBottom="17dp"
+        android:id="@+id/time_in"
+        android:layout_above="@+id/v_out"
+        android:layout_toLeftOf="@+id/submit"
+        android:layout_toStartOf="@+id/submit"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="29dp"
+        android:id="@+id/off_address"
+        android:hint="Enter Work Address"
+        android:layout_below="@+id/time_out"
+        android:layout_alignRight="@+id/v_out"
+        android:layout_alignEnd="@+id/v_out"
+        android:layout_alignLeft="@+id/time_out"
+        android:layout_alignStart="@+id/time_out" />
+
     <Button
         android:text="Submit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="72dp"
+        android:id="@+id/submit"
+        android:elevation="3dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="105dp"
-        android:id="@+id/submit"
-        android:elevation="3dp" />
+        android:background="@color/colorPrimary"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
     <TextView
-        android:text="Time IN"
+        android:text="When do you come back?"
         android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_above="@+id/submit"
-        android:layout_toStartOf="@+id/submit"
-        android:layout_marginBottom="101dp"
-        android:id="@+id/time_in"
-        android:layout_toLeftOf="@+id/submit" />
-
-    <TextView
-        android:text="Time OUT"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginBottom="39dp"
         android:id="@+id/time_out"
-        android:layout_above="@+id/submit"
+        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/time_in"
-        android:layout_alignStart="@+id/time_in" />
+        android:layout_alignStart="@+id/time_in"
+        android:layout_height="wrap_content" />
 
     <Button
         android:text="Select"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:id="@+id/v_out"
-        android:layout_alignBaseline="@+id/time_out"
-        android:layout_alignBottom="@+id/time_out"
+        android:layout_centerVertical="true"
         android:layout_alignLeft="@+id/v_in"
-        android:layout_alignStart="@+id/v_in" />
+        android:layout_alignStart="@+id/v_in"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="@color/common_google_signin_btn_text_dark_default" />
 
     <Button
         android:text="Select"
@@ -88,9 +104,25 @@
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
         android:id="@+id/v_in"
+        style="@style/Widget.AppCompat.Button.Colored"
+        tools:backgroundTint="@color/colorAccent"
         android:layout_alignBottom="@+id/time_in"
         android:layout_toRightOf="@+id/submit"
         android:layout_toEndOf="@+id/submit" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/hom_address"
+        android:hint="Enter Home Address"
+        android:layout_marginTop="22dp"
+        android:layout_below="@+id/off_address"
+        android:layout_alignLeft="@+id/off_address"
+        android:layout_alignStart="@+id/off_address"
+        android:layout_alignRight="@+id/off_address"
+        android:layout_alignEnd="@+id/off_address" />
 
     <ImageView
         app:srcCompat="@mipmap/batterysaver"

@@ -1,6 +1,11 @@
 package com.wolfsoft.teammeetingschedule;
 
+import android.app.AlertDialog;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +17,18 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.wolfsoft.teammeetingschedule.utilities.DatabaseHelper;
+
 import java.util.Calendar;
+
+import static java.lang.Thread.sleep;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button t_in, t_out, submit_btn;
     private int mHour, mMinute;
+    EditText off, hom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +40,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         t_out= (Button) findViewById(R.id.v_out);
         submit_btn = (Button) findViewById(R.id.submit);
 
+        off = (EditText) findViewById(R.id.off_address);
+        hom = (EditText) findViewById(R.id.hom_address);
+
         t_in.setOnClickListener(this);
         t_out.setOnClickListener(this);
         submit_btn.setOnClickListener(this);
         startService(new Intent(this, NotificationService.class));
+
+        //testing charging stats
+        /*ChargingStat stat = new ChargingStat();
+        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        System.out.println(stat.ImportStat(1, dbHelper.getWritableDatabase()));*/
 
     }
 
@@ -77,8 +95,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(v == submit_btn){
 
-            Intent redirect = new Intent(this, Home.class);
-            startActivity(redirect);
+            android.support.v4.app.NotificationCompat.Builder mBuilder =
+                    new android.support.v4.app.NotificationCompat.Builder(this)
+                            .setSmallIcon(R.drawable.bell)
+                            .setContentTitle("My notification")
+                            .setContentText("Hello World!");
+
+            Intent resultIntent = new Intent(this, Home.class);
+
+            PendingIntent resultPendingIntent =
+                    PendingIntent.getActivity(
+                            this,
+                            0,
+                            resultIntent,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+
+            mBuilder.setAutoCancel(true);
+            mBuilder.setContentIntent(resultPendingIntent);
+
+
+            // Sets an ID for the notification
+            int mNotificationId = 001;
+// Gets an instance of the NotificationManager service
+            NotificationManager mNotifyMgr =
+                    (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+// Builds the notification and issues it.
+            mNotifyMgr.notify(mNotificationId, mBuilder.build());
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Submission Successful")
+                    .setMessage("Thank you for the submission")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // finish the activity here or,
+                            // redirect to another activity
+                            finish();
+                            System.exit(0);
+                        }
+                    })
+                    .show();
+
+
+
         }
 
     }
