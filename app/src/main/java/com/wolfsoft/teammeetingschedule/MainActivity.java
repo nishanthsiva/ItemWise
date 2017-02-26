@@ -7,6 +7,8 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -98,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             android.support.v4.app.NotificationCompat.Builder mBuilder =
                     new android.support.v4.app.NotificationCompat.Builder(this)
                             .setSmallIcon(R.drawable.bell)
-                            .setContentTitle("My notification")
-                            .setContentText("Hello World!");
+                            .setContentTitle("Battery Wise")
+                            .setContentText("Conserve battery life. Tap to know how.");
 
             Intent resultIntent = new Intent(this, Home.class);
 
@@ -124,8 +126,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mNotifyMgr.notify(mNotificationId, mBuilder.build());
 
             new AlertDialog.Builder(this)
-                    .setTitle("Submission Successful")
-                    .setMessage("Thank you for the submission")
+                    .setTitle("Thank You")
+                    .setMessage("Now, leave the rest to me :)")
                     .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // finish the activity here or,
