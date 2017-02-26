@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.wolfsoft.teammeetingschedule.utilities.DatabaseHelper;
+
 import java.util.Calendar;
 
 
@@ -34,6 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         t_out.setOnClickListener(this);
         submit_btn.setOnClickListener(this);
         startService(new Intent(this, NotificationService.class));
+
+        //testing charging stats
+        /*ChargingStat stat = new ChargingStat();
+        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+        System.out.println(stat.ImportStat(1, dbHelper.getWritableDatabase()));*/
 
     }
 
