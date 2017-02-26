@@ -194,9 +194,19 @@ public class NotificationService extends Service {
 
             }
 
+            String FILENAME = "charge.txt";
 
-
-
+            FileOutputStream fos = null;
+            try {
+                fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                fos.write((batteryLevel+"").getBytes());
+                fos.close();
+                System.out.println("writing "+batteryLevel+" to file.");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             Log.e("Battery level is", batteryLevel + "mm");
         }
